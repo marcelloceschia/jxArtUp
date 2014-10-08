@@ -3,7 +3,7 @@
 /*
  *    This file is part of the module jxArtUp for OXID eShop Community Edition.
  *
- *    The module jxFArtUpdater for OXID eShop Community Edition is free software: you can redistribute it and/or modify
+ *    The module jxArtUp for OXID eShop Community Edition is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
@@ -52,10 +52,9 @@ class jxartup extends oxAdminView
         $this->_aViewData["sModuleId"] = $oModule->getId();
         $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
         
-        $this->_aViewData["aFields"] = $this->aFields; //array( 'OXPRICE', 'OXTITLE', 'OXACTIVE', 'OXBPRICE', 'OXTPRICE', 'OXPRICEA', 'OXPRICEB', 'OXPRICEC', 'OXFREESHIPPING' );
+        $this->_aViewData["aFields"] = $this->aFields;
         
         $this->_aViewData["aUpdates"] = $aUpdates;
-        //--$this->_aViewData["NewUID"] = oxUtilsObject::getInstance()->generateUID();
 
         return $this->_sThisTemplate;
     }
@@ -91,10 +90,6 @@ class jxartup extends oxAdminView
             }
         }
         array_push( $aSet, "jxupdatetime = '{$sUpdTime}'" );
-        
-        /*echo '<pre>';
-        print_r($aSet);
-        echo '</pre>';*/
         
         $sSql = "UPDATE jxarticleupdates SET " . implode( ',', $aSet ) . " WHERE jxid = '{$sJxId}'";
         //echo '<hr>'.$sSql;
@@ -141,7 +136,6 @@ class jxartup extends oxAdminView
         }
         
         $sSql = "INSERT INTO jxarticleupdates (" . implode( ',', $aCol ) . ") VALUES (" . implode( ',', $aVal ) . ") ";
-        //echo '<hr>'.$sSql;
         
         $oDb->execute($sSql);
         
@@ -158,7 +152,6 @@ class jxartup extends oxAdminView
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         
         $sSql = "DELETE FROM jxarticleupdates WHERE jxid = '{$sJxId}' ";
-        //echo '<hr>'.$sSql;
         
         $oDb->execute($sSql);
         
@@ -190,8 +183,9 @@ class jxartup extends oxAdminView
                             . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
                         . "AS oxtitle, jxdone "
                     . "FROM jxarticleupdates u, oxarticles a "
-                    . "WHERE a.oxid = u.jxartid AND ({$sWhere}) ";
-            //echo $sSql.'<hr>';
+                    . "WHERE a.oxid = u.jxartid AND ({$sWhere}) "
+                    . "ORDER BY jxupdatetime ASC ";
+
             $rs = $oDb->Execute($sSql);
 
             if ($rs) {
@@ -203,9 +197,7 @@ class jxartup extends oxAdminView
                 $aUpdates[$key] = $aSubData;
             }
         }
-        /*echo '<pre>';
-        print_r($aUpdates);
-        echo '</pre>';*/
+
         return $aUpdates;
     }
     
