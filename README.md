@@ -10,8 +10,13 @@
 
 ## Screenshot
 
-Start Screen:  
-![Active column](https://github.com/job963/jxFiles/raw/master/docs/img/screenshot.png)
+**Display of jobs in Admin**
+
+![Job list](https://github.com/job963/jxArtUp/raw/master/docs/img/jxartup_main.png)
+
+**Editing a job**
+
+![Editing a job](https://github.com/job963/jxArtUp/raw/master/docs/img/jxartup_edit.png)
 
 ## Changelog
 
