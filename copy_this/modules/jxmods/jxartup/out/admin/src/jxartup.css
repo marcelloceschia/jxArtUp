@@ -2,6 +2,60 @@
  *    This file is part of the module jxArtUp for OXID eShop Community Edition.
  */
 
+
+/* --- Calendar Table -------------------- */
+    
+.jxcal table {
+    width: 99%;
+    border-collapse: collapse;
+    border: 1px solid lightgray;
+}
+
+.jxcal td {
+    border: 1px solid lightgray;
+    width: 14%;
+    height: 100px;
+    vertical-align: top;
+    padding: 6px;
+}
+
+.jxcalact {
+}
+
+.jxcaltoday {
+    background-image: linear-gradient(to bottom, #ffffe0, #ffffc0);
+}
+.jxcalnxtmon {
+    background-image: linear-gradient(to bottom, #fafafa, #eee);
+}
+
+.jxcalgray {
+    font-weight: normal;
+    font-size: 1.0em;
+    color: gray;
+    background-image: linear-gradient(to bottom, #fafafa, #ddd);
+}
+
+.jxcaldaynum {
+    display: inline-block;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 1.1em;
+    color: #fff;
+    background: #c1cfdb;
+    border-radius: 3px;
+}
+
+.jxcaldaynumgray {
+    display: inline-block;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 1.1em;
+    color: #fff;
+    background: #d5dfe7;
+    border-radius: 3px;
+}
+
     
 /* --- Popup Window -------------------- */
     

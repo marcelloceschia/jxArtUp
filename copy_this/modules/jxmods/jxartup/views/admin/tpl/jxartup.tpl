@@ -1,4 +1,3 @@
-[{*debug*}]
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
 <link href="[{$oViewConf->getModuleUrl('jxartup','out/admin/src/jxartup.css')}]" type="text/css" rel="stylesheet">
 
@@ -101,6 +100,8 @@ function clearUrl()
 
 </script>
 
+    [{assign var="iconPath" value=$oViewConf->getModuleUrl('jxartup','out/admin/src/bg') }]
+
     <h1>[{ oxmultilang ident="JXARTUP_TITLE" }]</h1>
     <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">&nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;</div>
     <br clear="all" />
@@ -126,7 +127,7 @@ function clearUrl()
                 <br />
                 <table>
                     <tr id="artidline" style="display:none;">
-                        <td><label for="artuid">[{ oxmultilang ident="JXARTUP_PRODUCT" }]-UID</label></td>
+                        <td><label for="artuid">[{ oxmultilang ident="JXARTUP_PRODUCTID" }]</label></td>
                         <td><input type="text" name="artuid" id="artuid" size="40" value="" onchange="clearUrl();" onkeyup="clearUrl();" /></td>
                     </tr>
                     <tr>
@@ -137,13 +138,13 @@ function clearUrl()
                         <td><label for="updatetime">[{ oxmultilang ident="JXARTUP_DATETIME" }]</label></td>
                         <td>
                             <input type="text" name="updatetime" id="updatetime" size="20" autofocus />&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"yesterday"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_TODAYMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TODAYMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{$smarty.now|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_TOMORROWMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TOMORROWMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"tomorrow"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_2DAYSMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_2DAYSMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"next friday"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_NXTFRIMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_NXTFRIMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"next sunday"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_NXTSUNMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_NXTSUNMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"last day of this month"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_FIRSTMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_FIRSTMIDNIGHT_ABBR" }]</a>&nbsp;
-                            <a href="#" onclick="fillDateTime('updatetime','[{"last day of next month"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_LASTMIDNIGHT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_LASTMIDNIGHT_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{$smarty.now|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_TODAY_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TODAY_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"tomorrow"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_TOMORROW_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TOMORROW_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"+2 days"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_2DAYS_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_2DAYS_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"next saturday"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_NXTSAT_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_NXTSAT_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"next monday"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_NXTMON_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_NXTMON_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"first day of next month"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_FIRSTDAY_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_FIRSTDAY_ABBR" }]</a>&nbsp;
+                            <a href="#" onclick="fillDateTime('updatetime','[{"last day of next month"|date_format:"%Y-%m-%d"|cat:" 23:59:59"}]');" title="[{ oxmultilang ident="JXARTUP_LASTDAY_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_LASTDAY_ABBR" }]</a>&nbsp;
                         </td>
                     </tr>
                     <tr>
@@ -225,14 +226,25 @@ function clearUrl()
     </form>
         
         
-    <div class="greenbtn">
+    <div class="greenbtn" style="display:inline-block;">
         <button type="button" 
                 onclick="showEditPopup('*NEW*','','','','','','','','','');">
             <span type="font-weight:bold;">&#10010;</span> <b>[{ oxmultilang ident="JXARTUP_CREATE" }]</b>
         </button>
     </div>
     
+    
+    [{if $jxErr != ""}]
+        <div style="margin-left:10px; border:1px #dd0000 solid; border-radius:3px; padding:6px; background-color:#ffdddd; display:inline-block;">
+            <span style="color:#dd0000; font-size:1.1em;"><b>[{ oxmultilang ident="JXARTUP_ERR" }]:</b> [{ oxmultilang ident="JXARTUP_"|cat:$jxErr }]</span>
+        </div>
+    [{/if}]
+    
 
+<button onclick="document.getElementById('liste').style.display = 'block';document.getElementById('calendar').style.display = 'none';"><img src="[{$iconPath}]/liste.png" style="position:relative;left:0px;top:2px;"></button>
+<button onclick="document.getElementById('liste').style.display = 'none';document.getElementById('calendar').style.display = 'block';"><img src="[{$iconPath}]/calendar.png" style="position:relative;left:0px;top:2px;"></button>
+    
+    
 <form name="jxartup" id="jxartup" action="[{ $oViewConf->selflink }]" method="post">
     <p>
         [{ $oViewConf->hiddensid }]
@@ -276,7 +288,6 @@ function clearUrl()
             </td>
         </tr>
 
-        [{assign var="iconPath" value=$oViewConf->getModuleUrl('jxartup','out/admin/src/bg') }]
         [{foreach key=phase name=timephase item=aPhase from=$aUpdates}]
             [{if $aPhase|@count > 0}]
                 [{assign var="phasetitle" value="JXARTUP_"|cat:$phase}]
@@ -344,3 +355,48 @@ function clearUrl()
         </table>
     </div>
 </form>
+        
+<div class="jxcal" id="calendar" style="display:none;">        
+[{assign var="i" value=1}]
+[{assign var="thisMonth" value=$smarty.now|date_format:"%m"}]
+<table>
+    <tr>
+    [{foreach key=day name=alldays item=aDay from=$aDays}]
+        <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]>
+            <div [{if $aDay.active}]class="jxcaldaynum"[{else}]class="jxcaldaynumgray"[{/if}]>[{$aDay.day}]</div>
+            [{if $aDay.data|@count > 0}]
+                [{foreach name=job item=aJob from=$aDay.data}]
+                <div>
+                    [{if $aJob.jxdone == 1}]
+                        [{assign var="iconFile" value="done"}]
+                    [{else}]
+                        [{assign var="iconFile" value="planned"}]
+                    [{/if}]
+                    <img src="[{$iconPath}]/[{$iconFile}].png" style="position:relative;left:2px;top:3px;">&nbsp;
+                    <a href="#" 
+                       onclick="showEditPopup('[{$aJob.jxid}]', '[{$aJob.jxartid}]',
+                                   '[{$aJob.oxtitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]',
+                                   '[{$aJob.jxfield1}]','[{$aJob.jxvalue1|escape:"quotes"}]',
+                                   '[{$aJob.jxfield2}]','[{$aJob.jxvalue2|escape:"quotes"}]',
+                                   '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]');"
+                        title="[{$aJob.jxupdatetime|date_format:"%H:%M:%S"}]
+[{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1}] =&gt; [{$aJob.jxvalue1}]
+[{if $aJob.jxfield2}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2}] =&gt; [{$aJob.jxvalue2}][{/if}]
+[{if $aJob.jxfield3}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield3}] =&gt; [{$aJob.jxvalue3}][{/if}]
+">
+                    [{$aJob.oxtitle}]
+                    </a>
+                </div>
+                    [{/foreach}]
+            [{/if}]
+        </td>
+        [{if $i == 7}]
+            [{assign var="i" value=0}]
+            </tr>
+            <tr>
+        [{/if}]
+        [{assign var="i" value=$i+1}]
+    [{/foreach}]
+    </tr>
+</table>
+</div>

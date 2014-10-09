@@ -13,10 +13,10 @@ $aModule = array(
     'title'        => 'jxArtUp - Product Updater and Scheduler',
     'description'  => array(
                         'de' => 'Admin-Modul für die Planung von Artikel-Updates',
-                        'en' => 'Admin module for Scheduling Product Updates'
+                        'en' => 'Admin Module for Scheduling Product Updates'
                         ),
     'thumbnail'    => 'jxartup.png',
-    'version'      => '0.1',
+    'version'      => '0.2',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxArtUp',
     'email'        => 'jobarthel@gmail.com',

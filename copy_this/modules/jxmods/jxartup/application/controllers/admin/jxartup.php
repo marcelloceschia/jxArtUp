@@ -35,6 +35,8 @@ class jxartup extends oxAdminView
                                 'OXPRICEB' => 'FLOAT', 
                                 'OXPRICEC' => 'FLOAT', 
                                 'OXFREESHIPPING' => 'INT' );
+    protected $aCalendar = array();
+    protected $jxErr = "";
 
     public function render()
     {
@@ -47,14 +49,24 @@ class jxartup extends oxAdminView
         
         $aUpdates = $this->_getAllUpdates();
         
+        $this->aCalendar = $this->_createCalendarTable();
+        $this->_fillCalendar();
+        /*echo '<pre>';
+        print_r($this->aCalendar);
+        echo '</pre>';/**/
+        
         $oModule = oxNew('oxModule');
         $oModule->load('jxartup');
         $this->_aViewData["sModuleId"] = $oModule->getId();
         $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
         
         $this->_aViewData["aFields"] = $this->aFields;
+        $this->_aViewData["jxErr"] = $this->jxErr;
         
         $this->_aViewData["aUpdates"] = $aUpdates;
+        //$this->_getFirstDay();
+        //$this->_getLastDay();
+        $this->_aViewData["aDays"] = $this->aCalendar;
 
         return $this->_sThisTemplate;
     }
@@ -92,7 +104,6 @@ class jxartup extends oxAdminView
         array_push( $aSet, "jxupdatetime = '{$sUpdTime}'" );
         
         $sSql = "UPDATE jxarticleupdates SET " . implode( ',', $aSet ) . " WHERE jxid = '{$sJxId}'";
-        //echo '<hr>'.$sSql;
         
         $oDb->execute($sSql);
         
@@ -117,10 +128,17 @@ class jxartup extends oxAdminView
         
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         
+        $sSql = "SELECT oxid FROM oxarticles WHERE oxid = '{$sArtId}' OR oxartnum = '{$sArtId}' ";
+        $sArtUid = $oDb->getOne( $sSql, false, false );
+        if ($sArtUid == "") {
+            $this->jxErr = "ERR_ID_NOT_FOUND";
+            return;
+        }
+        
         $aCol = array();
         $aVal = array();
         array_push( $aCol, "jxid, jxartid, jxupdatetime" );
-        array_push( $aVal, "'{$sJxId}', '{$sArtId}', '{$sUpdTime}'" );
+        array_push( $aVal, "'{$sJxId}', '{$sArtUid}', '{$sUpdTime}'" );
         
         for ($i=1; $i<=3; $i++) {
             $sField = $this->getConfig()->getRequestParameter( "field{$i}" );
@@ -170,7 +188,7 @@ class jxartup extends oxAdminView
                         'tomorrow' => 'DATEDIFF(jxupdatetime,CURDATE()) = 1',
                         'nextweek' => 'DATEDIFF(jxupdatetime,CURDATE()) BETWEEN 2 AND 7',
                         'nextmonth' => 'DATEDIFF(jxupdatetime,CURDATE()) BETWEEN 8 AND 30',
-                        'next3month' => 'DATEDIFF(jxupdatetime,CURDATE()) BETWEEN 21 AND 90'
+                        'next3month' => 'DATEDIFF(jxupdatetime,CURDATE()) BETWEEN 31 AND 90'
                     );
         
         $aUpdates = array();
@@ -203,6 +221,111 @@ class jxartup extends oxAdminView
     }
     
     
+    private function _getFirstDay($sDate = '')
+    {
+        $sFirst = strtotime( date('Y-m-01') );
+        $iWeekday = date( "N", $sFirst ) - 1;
+        $sFirstWeekday = strtotime( "-$iWeekday day", $sFirst );
+        
+        return date( "Y-m-d", $sFirstWeekday );
+    }
+    
+    
+    private function _getLastDay($sDate = '')
+    {
+        if ( empty($sDate) )
+            $sDate = date("Y-m-d");
+
+        $sLast = strtotime( date($sDate) );
+        $sLastDay = strtotime( "last day of next month", $sLast );
+        $iWeekday = 7 - date( "N", $sLastDay );
+        $sLastWeekday = strtotime( "$iWeekday day", $sLastDay );
+
+        return date( "Y-m-d", $sLastWeekday );
+    }
+    
+    
+    private function _getFirstActiveDay($sDate = '')
+    {
+        $sFirstDay = strtotime( date('Y-m-01') );
+        
+        return date( "Y-m-d", $sFirstDay );
+    }
+    
+    
+    private function _getLastActiveDay($sDate = '')
+    {
+        if ( empty($sDate) )
+            $sDate = date("Y-m-d");
+
+        $sLast = strtotime( date($sDate) );
+        $sLastDay = strtotime( "last day of next month", $sLast );
+
+        return date( "Y-m-d", $sLastDay );
+    }
+
+    
+    private function _createCalendarTable()
+    {
+        $startCalDate = new DateTime( $this->_getFirstDay() );
+        $endCalDate = new DateTime( $this->_getLastDay() );
+        $dateDiff = date_diff( $endCalDate, $startCalDate );
+        $days = $dateDiff->format( '%a' );
+        
+        $startActiveDay = new DateTime( $this->_getFirstActiveDay() );
+        $endActiveDay = new DateTime( $this->_getLastActiveDay() );
+        
+        $aCalendar = array();
+        
+        $tDate = $startCalDate;
+        if ($tDate < $startActiveDay)
+            $active = FALSE;
+        else
+            $active = TRUE;
+        $aCalendar[$tDate->format('Y-m-d')] = array( 'day' => $tDate->format('d'), 'active' => $active, 'data' => array() );
+        for ($i=1; $i<=$days; $i++) {
+            $tDate = $tDate->add( new DateInterval('P1D') ); 
+            if ($tDate < $startActiveDay)
+                $active = FALSE;
+            else
+                $active = TRUE;
+            $aCalendar[$tDate->format('Y-m-d')] = array( 'day' => $tDate->format('d'), 'active' => $active, 'data' => array()  );
+        }
+
+        return $aCalendar;
+    }
+    
+    
+    private function _fillCalendar()
+    {
+        $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
+        $sSql = "SELECT jxid, jxartid, jxupdatetime, DATE(jxupdatetime) AS jxdate, "
+                    . "jxfield1, jxvalue1,  jxfield2, jxvalue2,  jxfield3, jxvalue3, "
+                    . "a.oxartnum, "
+                    . "IF(a.oxparentid='',"
+                        . "a.oxtitle,"
+                        . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
+                    . "AS oxtitle, jxdone "
+                . "FROM jxarticleupdates u, oxarticles a "
+                . "WHERE a.oxid = u.jxartid "
+                    . "AND DATE(jxupdatetime) >= '{$this->_getFirstDay()}' "
+                    . "AND DATE(jxupdatetime) <= '{$this->_getLastDay()}' "
+                . "ORDER BY jxupdatetime ASC ";
+
+        $rs = $oDb->Execute($sSql);
+
+        if ($rs) {
+            while (!$rs->EOF) {
+                $maxcount = count( $this->aCalendar[$rs->fields['jxdate']]['data'] );
+                $this->aCalendar[$rs->fields['jxdate']]['data'][$maxcount] = $rs->fields;
+                $rs->MoveNext();
+            }
+        }
+        return;
+    }
+
+
+
     private function _logAction($sText)
     {
         $myConfig = oxRegistry::get("oxConfig");
