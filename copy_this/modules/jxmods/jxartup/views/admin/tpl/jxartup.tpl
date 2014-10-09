@@ -232,23 +232,11 @@ function clearUrl()
         </button>
     </div>
     
-    [{if $sUploadedFile != ""}]
-        <div style="margin-left:10px; border:1px #00cc00 solid; border-radius:3px; padding:6px; background-color:#ddffdd; display:inline-block;">
-            <span style="color:#00bb00;">[{ oxmultilang ident="JXFILES_UPLOADSUCCESS1" }] <b>&nbsp;[{$sUploadedFile}]&nbsp;</b> [{ oxmultilang ident="JXFILES_UPLOADSUCCESS2" }]</span><br />
-        </div>
-    [{/if}]
-    [{if $iUploadError > 0}]
-        <div style="margin-left:10px; border:1px #dd0000 solid; border-radius:3px; padding:6px; background-color:#ffdddd; display:inline-block;">
-            <span style="color:#dd0000; font-size:1.1em; font-weight:bold;">[{ oxmultilang ident="JXFILES_ERRORONUPLOAD" }]</span><br />
-            [{assign var="errText" value="JXFILES_UPLOADERROR"|cat:$iUploadError}]
-            #[{$iUploadError}]: [{ oxmultilang ident=$errText }] (<a href="http://php.net/manual/de/features.file-upload.errors.php" target="_blank" style="font-weight:normal;text-decoration:underline;">Info</a>)
-        </div>
-    [{/if}]
 
-<form name="jxfiles" id="jxfiles" action="[{ $oViewConf->selflink }]" method="post">
+<form name="jxartup" id="jxartup" action="[{ $oViewConf->selflink }]" method="post">
     <p>
         [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="jxfiles">
+        <input type="hidden" name="cl" value="jxartup">
         <input type="hidden" name="fnc" value="">
         <input type="hidden" name="oxid" value="[{ $oxid }]">
         <input type="hidden" name="jxactdir" value="[{$sActPath}]">
@@ -261,30 +249,29 @@ function clearUrl()
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
-            [{if $sActPath != $sSectionPath}]
-                [{assign var="backLink" value="&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"javascript:document.forms.jxfiles.jxsubdir.value='..';document.forms.jxfiles.submit();\">[..]</a>"}]
-            [{else}]
-                [{assign var="backLink" value=""}]
-            [{/if}]
             <td class="listfilter first" style="[{$headStyle}]">
                 <div class="r1"><div class="b1">
-                    <a href="#" onclick="javascript:document.forms.jxfiles.jxsortby.value='name';document.forms.jxfiles.submit();">
-                        [{ oxmultilang ident="JXFILES_FILENAME" }]
-                    </a> [{$backLink}]
+                    [{ oxmultilang ident="JXARTUP_STATUS" }]
                 </div></div>
             </td>
             <td class="listfilter" style="[{$headStyle}]">
                 <div class="r1"><div class="b1">
-                    <a href="#" onclick="javascript:document.forms.jxfiles.jxsortby.value='date';document.forms.jxfiles.submit();">
-                        [{ oxmultilang ident="JXFILES_FILEDATE" }]
-                    </a>
+                    [{ oxmultilang ident="JXARTUP_ARTNUM" }]
                 </div></div>
             </td>
             <td class="listfilter" style="[{$headStyle}]">
                 <div class="r1"><div class="b1">
-                    <a href="#" onclick="javascript:document.forms.jxfiles.jxsortby.value='size';document.forms.jxfiles.submit();">
-                        [{ oxmultilang ident="JXFILES_FILESIZE" }]
-                    </a>
+                    [{ oxmultilang ident="JXARTUP_ARTTITLE" }]
+                </div></div>
+            </td>
+            <td class="listfilter" style="[{$headStyle}]">
+                <div class="r1"><div class="b1">
+                    [{ oxmultilang ident="JXARTUP_DATE" }]
+                </div></div>
+            </td>
+            <td class="listfilter" style="[{$headStyle}]">
+                <div class="r1"><div class="b1">
+                    [{ oxmultilang ident="JXARTUP_CHANGES" }]
                 </div></div>
             </td>
         </tr>
@@ -305,6 +292,18 @@ function clearUrl()
                         [{assign var="iconFile" value="planned"}]
                     [{/if}]
                     <img src="[{$iconPath}]/[{$iconFile}].png" style="position:relative;left:2px;top:3px;">&nbsp;
+                </td>
+                <td class="[{$listclass}]">
+                    <a href="#" 
+                       onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
+                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
+                                   '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
+                                   '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
+                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
+                        [{$sUpdate.oxartnum}]
+                    </a>
+                </td>
+                <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
                                    '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
@@ -313,13 +312,6 @@ function clearUrl()
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
                         [{$sUpdate.oxtitle}]
                     </a>
-                    [{*$sUpdate.oxtitle*}]
-                    
-                    [{*<a href="[{if $sFile.file}][{$sShopUrl}][{$sActPath}]/[{$sFile.name}][{else}]#[{/if}]" 
-                       [{if !$sFile.file}]onclick="javascript:document.forms.jxfiles.jxsubdir.value='/'+'[{$sFile.name}]';document.forms.jxfiles.submit();"[{/if}]
-                       [{if $sFile.file}]target="_blank"[{/if}] />
-                    [{$sFile.name}]
-                    </a>*}]
                 </td>
                 <td class="[{$listclass}]">
                     &nbsp;

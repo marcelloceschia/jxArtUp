@@ -4,6 +4,13 @@ $iLangNr    = 0;
 $aLang = array(
     'jxartup_menu'                   => 'Artikel Updater',
     'JXARTUP_TITLE'                  => 'Artikel Updater',
+    
+    'JXARTUP_STATUS'                 => 'Status',
+    'JXARTUP_ARTNUM'                 => 'Art.-Nr.',
+    'JXARTUP_ARTTITLE'               => 'Titel',
+    'JXARTUP_DATE'                   => 'Datum',
+    'JXARTUP_CHANGES'                => '&Auml;nderungen',
+    
     'JXARTUP_EDIT_TITLE'             => 'Update-Job bearbeiten',
     'JXARTUP_CREATE_TITLE'           => 'Neuen Update-Job erstellen',
     'JXARTUP_CREATE'                 => 'Erstellen',

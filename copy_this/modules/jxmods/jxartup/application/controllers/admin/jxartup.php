@@ -178,6 +178,7 @@ class jxartup extends oxAdminView
         foreach($aWhere as $key => $sWhere) {
             $sSql = "SELECT '{$key}' as jxtimekey, jxid, jxartid, jxupdatetime, "
                         . "jxfield1, jxvalue1,  jxfield2, jxvalue2,  jxfield3, jxvalue3, "
+                        . "a.oxartnum, "
                         . "IF(a.oxparentid='',"
                             . "a.oxtitle,"
                             . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
