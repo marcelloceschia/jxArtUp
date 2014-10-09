@@ -14,6 +14,8 @@
 
 ![Job list](https://github.com/job963/jxArtUp/raw/master/docs/img/jxartup_main.png)
 
+![Calendar](https://github.com/job963/jxArtUp/raw/master/docs/img/jxartup_calendar.png)
+
 **Editing a job**
 
 ![Editing a job](https://github.com/job963/jxArtUp/raw/master/docs/img/jxartup_edit.png)
