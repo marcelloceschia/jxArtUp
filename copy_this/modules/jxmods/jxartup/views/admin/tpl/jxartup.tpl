@@ -52,6 +52,10 @@ function editThis( sID, sClass )
 
 function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field2, value2, field3, value3 )
 {
+    // stop event propagation
+    if (document.getElementById('popupEditWin').style.display == 'block')
+        return;
+    
     document.getElementById('popupEditWin').style.display = 'block';
     document.getElementById('grayout').style.display = 'block';
     document.getElementById('jxid').value = jxid;
@@ -64,12 +68,13 @@ function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field
     document.getElementById('value2').value = value2;
     document.getElementById('field3').value = field3;
     document.getElementById('value3').value = value3;
-    //alert(jxid == '*NEW*');
+
     if (jxid == '*NEW*') {
         document.getElementById('artidline').style.display = 'table-row';
         document.getElementById('jxdelete').style.display = 'none';
         document.getElementById('jxsubmit').innerHTML = '[{ oxmultilang ident="JXARTUP_CREATE" }]';
         document.getElementById('popupWinTitle').innerHTML = '[{ oxmultilang ident="JXARTUP_CREATE_TITLE" }]';
+        document.getElementById('artuid').focus();
         document.getElementById('fnc').value = 'jxcreate';
     }
     else {
@@ -77,8 +82,10 @@ function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field
         document.getElementById('jxdelete').style.display = 'block';
         document.getElementById('jxsubmit').innerHTML = '[{ oxmultilang ident="JXARTUP_SAVE" }]';
         document.getElementById('popupWinTitle').innerHTML = '[{ oxmultilang ident="JXARTUP_EDIT_TITLE" }]';
+        document.getElementById('updatetime').focus();
         document.getElementById('fnc').value = 'jxsave';
     }
+    return;
 }
 
 function showDeletePopup( filename )
@@ -86,16 +93,19 @@ function showDeletePopup( filename )
     document.getElementById('popupDeleteWin').style.display = 'block';
     document.getElementById('grayout').style.display = 'block';
     document.getElementById('jxfile').value = filename;
+    return;
 }
 
 function fillDateTime( elemId, timeValue )
 {
     document.getElementById(elemId).value = timeValue;
+    return;
 }
 
 function clearUrl()
 {
     document.getElementById('artuid').value = document.getElementById('artuid').value.match(/'([^']+)'/)[1];
+    return;
 }
 
 </script>
@@ -137,7 +147,7 @@ function clearUrl()
                     <tr>
                         <td><label for="updatetime">[{ oxmultilang ident="JXARTUP_DATETIME" }]</label></td>
                         <td>
-                            <input type="text" name="updatetime" id="updatetime" size="20" autofocus />&nbsp;
+                            <input type="text" name="updatetime" id="updatetime" size="20" />&nbsp;
                             <a href="#" onclick="fillDateTime('updatetime','[{$smarty.now|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_TODAY_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TODAY_ABBR" }]</a>&nbsp;
                             <a href="#" onclick="fillDateTime('updatetime','[{"tomorrow"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_TOMORROW_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_TOMORROW_ABBR" }]</a>&nbsp;
                             <a href="#" onclick="fillDateTime('updatetime','[{"+2 days"|date_format:"%Y-%m-%d"|cat:" 00:00:00"}]');" title="[{ oxmultilang ident="JXARTUP_2DAYS_TITLE" }]" style="text-decoration:underline;">[{ oxmultilang ident="JXARTUP_2DAYS_ABBR" }]</a>&nbsp;
@@ -192,7 +202,7 @@ function clearUrl()
                     <tr>
                         <td><label>[{ oxmultilang ident="JXARTUP_OPTIONS" }]</label></td>
                         <td>
-                            <input type="checkbox" name="inheritprices" id="inheritprices" size="20" autofocus />
+                            <input type="checkbox" name="inheritprices" id="inheritprices" size="20" />
                             <label for="inheritprices">[{ oxmultilang ident="JXARTUP_INHERITPRICES" }]</label>
                         </td>
                     </tr>
@@ -226,6 +236,12 @@ function clearUrl()
     </form>
         
         
+<form name="jxdisplay" id="jxdisplay" action="[{ $oViewConf->selflink }]" method="post">
+    [{ $oViewConf->hiddensid }]
+    <input type="hidden" name="cl" value="jxartup">
+    <input type="hidden" name="fnc" id="dspfnc" value="">
+    <input type="hidden" name="jxdisptype" id="jxdisptype" value="">
+
     <div class="greenbtn" style="display:inline-block;">
         <button type="button" 
                 onclick="showEditPopup('*NEW*','','','','','','','','','');">
@@ -233,31 +249,37 @@ function clearUrl()
         </button>
     </div>
     
-    
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="litegraybtn" style="display:inline-block;">
+        <button type="submit" 
+                onclick="document.getElementById('dspfnc').value='jxsetdisplay';
+                            document.getElementById('jxdisptype').value='list';
+                            document.getElementById('jxdisplay').submit();">
+            <img src="[{$iconPath}]/liste.png" style="position:relative;left:0px;top:2px;">
+        </button>
+    </div>
+
+    <div class="litegraybtn" style="display:inline-block;">
+        <button type="submit" 
+                onclick="document.getElementById('dspfnc').value='jxsetdisplay';
+                            document.getElementById('jxdisptype').value='calendar';
+                            document.getElementById('jxdisplay').submit();">
+            <img src="[{$iconPath}]/calendar.png" style="position:relative;left:0px;top:2px;">
+        </button>
+    </div>
+</form>
+
+<br clear="all" />
+        
     [{if $jxErr != ""}]
         <div style="margin-left:10px; border:1px #dd0000 solid; border-radius:3px; padding:6px; background-color:#ffdddd; display:inline-block;">
             <span style="color:#dd0000; font-size:1.1em;"><b>[{ oxmultilang ident="JXARTUP_ERR" }]:</b> [{ oxmultilang ident="JXARTUP_"|cat:$jxErr }]</span>
         </div>
     [{/if}]
     
-
-<button onclick="document.getElementById('liste').style.display = 'block';document.getElementById('calendar').style.display = 'none';"><img src="[{$iconPath}]/liste.png" style="position:relative;left:0px;top:2px;"></button>
-<button onclick="document.getElementById('liste').style.display = 'none';document.getElementById('calendar').style.display = 'block';"><img src="[{$iconPath}]/calendar.png" style="position:relative;left:0px;top:2px;"></button>
     
-    
-<form name="jxartup" id="jxartup" action="[{ $oViewConf->selflink }]" method="post">
-    <p>
-        [{ $oViewConf->hiddensid }]
-        <input type="hidden" name="cl" value="jxartup">
-        <input type="hidden" name="fnc" value="">
-        <input type="hidden" name="oxid" value="[{ $oxid }]">
-        <input type="hidden" name="jxactdir" value="[{$sActPath}]">
-        <input type="hidden" name="jxsectiondir" value="[{$sSectionPath}]">
-        <input type="hidden" name="jxsortby" value="[{$sSortBy}]">
-        <input type="hidden" name="jxsubdir" value="">
-    </p>
-    
-    <div id="liste">
+    <div id="liste" style="[{if $sDisplayType!="calendar"}]display:block;[{else}]display:none;[{/if}]">
         <table cellspacing="0" cellpadding="0" border="0" width="99%">
         <tr>
             [{ assign var="headStyle" value="border-bottom:1px solid #C8C8C8; font-weight:bold;" }]
@@ -354,15 +376,15 @@ function clearUrl()
 
         </table>
     </div>
-</form>
         
-<div class="jxcal" id="calendar" style="display:none;">        
+<div class="jxcal" id="calendar" style="[{if $sDisplayType=="calendar"}]display:block;[{else}]display:none;[{/if}]">        
 [{assign var="i" value=1}]
 [{assign var="thisMonth" value=$smarty.now|date_format:"%m"}]
 <table>
     <tr>
     [{foreach key=day name=alldays item=aDay from=$aDays}]
-        <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]>
+        <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]
+                onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '','', '','', '','');">
             <div [{if $aDay.active}]class="jxcaldaynum"[{else}]class="jxcaldaynumgray"[{/if}]>[{$aDay.day}]</div>
             [{if $aDay.data|@count > 0}]
                 [{foreach name=job item=aJob from=$aDay.data}]

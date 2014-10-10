@@ -132,49 +132,49 @@
     background-image: linear-gradient(to top, limegreen, forestgreen);
 }
 
-.jxpopupwin button[type=submit]{
+.jxpopupwin button[type=submit] {
     background: #3399ff;
     color: #fff;
     border: 1px solid #aaa;
     border-radius: 3px;
     padding: 6px;
 }
-.jxpopupwin button[type=submit]:hover{
+.jxpopupwin button[type=submit]:hover {
     background-image: linear-gradient(to top, royalblue, #3399ff);
 }
-.jxpopupwin button[type=submit]:active{
+.jxpopupwin button[type=submit]:active {
     background-image: linear-gradient(to top, #3399ff, royalblue);
 }
 
-.jxpopupwin button[type=reset]{
+.jxpopupwin button[type=reset] {
     background: darkgray;
     color: #fff;
     border: 1px solid #aaa;
     border-radius: 3px;
     padding: 6px;
 }
-.jxpopupwin button[type=reset]:hover{
+.jxpopupwin button[type=reset]:hover {
     background-image: linear-gradient(to top, dimgray, darkgray);
 }
-.jxpopupwin button[type=reset]:active{
+.jxpopupwin button[type=reset]:active {
     background-image: linear-gradient(to top, darkgray, dimgray);
 }
 
-.jxpopupwin .redbtn button[type=button]{
+.jxpopupwin .redbtn button[type=button] {
     background: #ff4145;
     color: #fff;
     border: 1px solid #aaa;
     border-radius: 3px;
     padding: 6px;
 }
-.jxpopupwin .redbtn button[type=button]:hover{
+.jxpopupwin .redbtn button[type=button]:hover {
     background-image: linear-gradient(to top, firebrick, #ff4145);
 }
-.jxpopupwin .redbtn button[type=button]:active{
+.jxpopupwin .redbtn button[type=button]:active {
     background-image: linear-gradient(to top, #ff4145, firebrick);
 }
 
-.greenbtn button[type=button]{
+.greenbtn button[type=button] {
     background: #2eb92d;
     color: #fff;
     border: 1px solid #aaa;
@@ -186,6 +186,20 @@
 }
 .greenbtn button[type=button]:active{
     background-image: linear-gradient(to top, #2eb92d, forestgreen);
+}
+
+.litegraybtn button {
+    background: #f0f0f0;
+    color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 6px;
+}
+.litegraybtn button:hover {
+    background-image: linear-gradient(to top, #d0d0d0, #fff);
+}
+.litegraybtn button:active {
+    background-image: linear-gradient(to top, #fff, #d0d0d0);
 }
 
 .jxpopupclose {

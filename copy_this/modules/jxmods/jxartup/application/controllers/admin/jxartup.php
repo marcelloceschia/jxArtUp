@@ -45,8 +45,6 @@ class jxartup extends oxAdminView
         $myConfig = oxRegistry::get("oxConfig");
         $sShopPath = $myConfig->getConfigParam("sShopDir");
                 
-        $sActPath = $this->getConfig()->getRequestParameter( "jxactdir" );
-        
         $aUpdates = $this->_getAllUpdates();
         
         $this->aCalendar = $this->_createCalendarTable();
@@ -59,6 +57,8 @@ class jxartup extends oxAdminView
         $oModule->load('jxartup');
         $this->_aViewData["sModuleId"] = $oModule->getId();
         $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+        
+        $this->_aViewData["sDisplayType"] = $myConfig->getConfigParam("sJxArtUpDisplayType");
         
         $this->_aViewData["aFields"] = $this->aFields;
         $this->_aViewData["jxErr"] = $this->jxErr;
@@ -172,6 +172,16 @@ class jxartup extends oxAdminView
         $sSql = "DELETE FROM jxarticleupdates WHERE jxid = '{$sJxId}' ";
         
         $oDb->execute($sSql);
+        
+        return;
+    }
+    
+    
+    public function jxsetdisplay ()
+    {
+        $sDispType = $this->getConfig()->getRequestParameter( "jxdisptype" );
+
+        $this->getConfig()->setConfigParam( 'sJxArtUpDisplayType', $sDispType );
         
         return;
     }
