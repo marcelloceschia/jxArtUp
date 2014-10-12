@@ -149,15 +149,17 @@ class jxartup extends oxAdminView
             $sField = $this->getConfig()->getRequestParameter( "field{$i}" );
             if (empty($sField) === TRUE)
                 $sField = 'none'; // some browsers aren't returning as value 'none'
-            if ( $sField != 'none' ) {
-                $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
-                if ($this->aFields[$sField] == CHAR)
-                    $sTmpValue = "{$oDb->quote($sValue)}";
-                else
-                    $sTmpValue = "{$sValue}";
-                array_push( $aCol, "jxfield{$i}, jxtype{$i}, jxvalue{$i}" );
-                array_push( $aVal, "'{$sField}', '{$this->aFields[$sField]}', $sTmpValue" );
-            }
+
+            if ($sField != 'none')
+                $sTmpType = $this->aFields[$sField];
+            else
+                $sTmpType = '';
+            
+            $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
+            $sTmpValue = $oDb->quote($sValue);
+            
+            array_push( $aCol, "jxfield{$i}, jxtype{$i}, jxvalue{$i} " );
+            array_push( $aVal, "'{$sField}', '{$sTmpType}', {$sTmpValue} " );
         }
         
         $sSql = "INSERT INTO jxarticleupdates (" . implode( ',', $aCol ) . ") VALUES (" . implode( ',', $aVal ) . ") ";
