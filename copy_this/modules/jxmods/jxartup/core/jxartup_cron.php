@@ -57,11 +57,10 @@ class jxArtUpCron
         $stmt->execute();
         $aTasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        //echo '<h1>Tasks</h1>';
         foreach ($aTasks as $key => $aTask) {
             $aSet = array();
             for ($i=1; $i<=3; $i++) {
-                if ( empty($aTask["jxvalue{$i}"]) !== TRUE ) {
+                if ( $aTask["jxfield{$i}"] != 'none' ) {
                     if ($aTask["jxtype{$i}"] == 'FLOAT')
                         array_push ($aSet, "{$aTask["jxfield{$i}"]} = {$aTask["jxvalue{$i}"]}");
                     elseif  ($aTask["jxtype{$i}"] == 'CHAR')

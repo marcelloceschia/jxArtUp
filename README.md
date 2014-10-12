@@ -38,3 +38,8 @@
 *  **0.2.2 Bugfix**  
   * Problems on Firefox fixed
   * Support for empty fields added   
+
+*  **0.2.3 Bugfix**  
+  * Problems on cron job fixed
+  * Missing field in create job added
+   

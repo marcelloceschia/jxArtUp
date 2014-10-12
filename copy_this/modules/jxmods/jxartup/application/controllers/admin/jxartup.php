@@ -142,8 +142,8 @@ class jxartup extends oxAdminView
         
         $aCol = array();
         $aVal = array();
-        array_push( $aCol, "jxid, jxartid, jxupdatetime" );
-        array_push( $aVal, "'{$sJxId}', '{$sArtUid}', '{$sUpdTime}'" );
+        array_push( $aCol, "jxid, jxartid, jxupdatetime, jxdone " );
+        array_push( $aVal, "'{$sJxId}', '{$sArtUid}', '{$sUpdTime}', 0 " );
         
         for ($i=1; $i<=3; $i++) {
             $sField = $this->getConfig()->getRequestParameter( "field{$i}" );
