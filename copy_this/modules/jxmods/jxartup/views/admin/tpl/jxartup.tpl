@@ -50,7 +50,7 @@ function editThis( sID, sClass )
     oTransfer.submit();
 }
 
-function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field2, value2, field3, value3 )
+function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value1, field2, value2, field3, value3 )
 {
     // stop event propagation
     if (document.getElementById('popupEditWin').style.display == 'block')
@@ -68,6 +68,8 @@ function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field
     document.getElementById('value2').value = value2;
     document.getElementById('field3').value = field3;
     document.getElementById('value3').value = value3;
+    document.getElementById('jxsubmit').style.display = 'inline-block';
+    switchFields(false);
 
     if (jxid == '*NEW*') {
         document.getElementById('artidline').style.display = 'table-row';
@@ -84,6 +86,11 @@ function showEditPopup( jxid, artid, arttitle, updatetime, field1, value1, field
         document.getElementById('popupWinTitle').innerHTML = '[{ oxmultilang ident="JXARTUP_EDIT_TITLE" }]';
         document.getElementById('updatetime').focus();
         document.getElementById('fnc').value = 'jxsave';
+    }
+    if (jxdone == 1) {
+        document.getElementById('jxdelete').style.display = 'none';
+        document.getElementById('jxsubmit').style.display = 'none';
+        switchFields(true);
     }
     return;
 }
@@ -105,6 +112,19 @@ function fillDateTime( elemId, timeValue )
 function clearUrl()
 {
     document.getElementById('artuid').value = document.getElementById('artuid').value.match(/'([^']+)'/)[1];
+    return;
+}
+
+function switchFields( bVal )
+{
+    document.getElementById('arttitle').disabled = bVal;
+    document.getElementById('updatetime').disabled = bVal;
+    document.getElementById('field1').disabled = bVal;
+    document.getElementById('value1').disabled = bVal;
+    document.getElementById('field2').disabled = bVal;
+    document.getElementById('value2').disabled = bVal;
+    document.getElementById('field3').disabled = bVal;
+    document.getElementById('value3').disabled = bVal;
     return;
 }
 
@@ -244,9 +264,19 @@ function clearUrl()
 
     <div class="greenbtn" style="display:inline-block;">
         <button type="button" 
-                onclick="showEditPopup('*NEW*','','','','','','','','','');">
+                onclick="showEditPopup('*NEW*','','','','','','','','','','');">
             <span type="font-weight:bold;">&#10010;</span> <b>[{ oxmultilang ident="JXARTUP_CREATE" }]</b>
         </button>
+    </div>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <div class="litegraybtn" style="display:inline-block;">
+        <a href="[{$oViewConf->getModuleUrl('jxartup','core/jxartup_cron.php')}]" target="_blank">
+            <button type="button" style="font-weight:bold;color:#444;" >
+                Update now
+            </button>
+        </a>
     </div>
     
     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -329,7 +359,7 @@ function clearUrl()
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
+                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
@@ -339,7 +369,7 @@ function clearUrl()
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
+                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
@@ -350,7 +380,7 @@ function clearUrl()
                     &nbsp;
                     <a href="#" 
                        onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
+                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
@@ -360,13 +390,13 @@ function clearUrl()
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]',
+                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
-                        <b>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield1}]</b> =&gt; [{$sUpdate.jxvalue1}]
-                        <b>[{if $sUpdate.jxfield2}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield2}]</b> =&gt; [{$sUpdate.jxvalue2}][{/if}]
-                        <b>[{if $sUpdate.jxfield3}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield3}]</b> =&gt; [{$sUpdate.jxvalue3}][{/if}]
+                        <b>[{if $sUpdate.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield1}]</b> =&gt; [{$sUpdate.jxvalue1}][{/if}]
+                        <b>[{if $sUpdate.jxfield2 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield2}]</b> =&gt; [{$sUpdate.jxvalue2}][{/if}]
+                        <b>[{if $sUpdate.jxfield3 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield3}]</b> =&gt; [{$sUpdate.jxvalue3}][{/if}]
                     </a>
                 </td>
             </tr>
@@ -384,7 +414,7 @@ function clearUrl()
     <tr>
     [{foreach key=day name=alldays item=aDay from=$aDays}]
         <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]
-                onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '','', '','', '','');">
+                onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '0', '','', '','', '','');">
             <div [{if $aDay.active}]class="jxcaldaynum"[{else}]class="jxcaldaynumgray"[{/if}]>[{$aDay.day}]</div>
             [{if $aDay.data|@count > 0}]
                 [{foreach name=job item=aJob from=$aDay.data}]
@@ -397,14 +427,14 @@ function clearUrl()
                     <img src="[{$iconPath}]/[{$iconFile}].png" style="position:relative;left:2px;top:3px;">&nbsp;
                     <a href="#" 
                        onclick="showEditPopup('[{$aJob.jxid}]', '[{$aJob.jxartid}]',
-                                   '[{$aJob.oxtitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]',
+                                   '[{$aJob.oxtitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]','[{$aJob.jxdone}]',
                                    '[{$aJob.jxfield1}]','[{$aJob.jxvalue1|escape:"quotes"}]',
                                    '[{$aJob.jxfield2}]','[{$aJob.jxvalue2|escape:"quotes"}]',
                                    '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]');"
                         title="[{$aJob.jxupdatetime|date_format:"%H:%M:%S"}]
-[{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1}] =&gt; [{$aJob.jxvalue1}]
-[{if $aJob.jxfield2}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2}] =&gt; [{$aJob.jxvalue2}][{/if}]
-[{if $aJob.jxfield3}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield3}] =&gt; [{$aJob.jxvalue3}][{/if}]
+[{if $aJob.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1}] =&gt; [{$aJob.jxvalue1}][{/if}]
+[{if $aJob.jxfield2 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2}] =&gt; [{$aJob.jxvalue2}][{/if}]
+[{if $aJob.jxfield3 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield3}] =&gt; [{$aJob.jxvalue3}][{/if}]
 ">
                     [{$aJob.oxtitle}]
                     </a>

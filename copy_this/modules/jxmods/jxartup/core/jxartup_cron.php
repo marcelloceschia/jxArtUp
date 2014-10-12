@@ -57,6 +57,9 @@ class jxArtUpCron
         $stmt->execute();
         $aTasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        if ( count($aTasks) == 0 )
+            echo 'nothing to do';
+        
         foreach ($aTasks as $key => $aTask) {
             $aSet = array();
             for ($i=1; $i<=3; $i++) {
@@ -75,8 +78,18 @@ class jxArtUpCron
             
             $sSql = "UPDATE jxarticleupdates SET jxdone = 1 WHERE jxid = '{$aTask['jxid']}'";
             //echo $sSql . '<hr>';
-            $stmt = $this->dbh->prepare($sSql);
-            $stmt->execute();
+            try {
+                $stmt = $this->dbh->prepare($sSql);
+                $stmt->execute();
+                if ($stmt->errorCode() != '00000') {
+                    echo( 'SQL: ' . $sql . '<br>' );
+                    echo( $stmt->errorInfo() . '<br>' );
+                }
+            }
+            catch (PDOException $e) {
+                echo('pdo->execute error = '.$e->getMessage(). '<br>' );
+                die();
+            }
 
         }
     }
