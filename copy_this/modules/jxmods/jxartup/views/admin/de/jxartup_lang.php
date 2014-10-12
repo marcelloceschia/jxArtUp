@@ -11,6 +11,14 @@ $aLang = array(
     'JXARTUP_DATE'                   => 'Datum',
     'JXARTUP_CHANGES'                => '&Auml;nderungen',
     
+    'JXARTUP_MONDAY'                 => 'Montag',
+    'JXARTUP_TUESDAY'                => 'Dienstag',
+    'JXARTUP_WEDNESDAY'              => 'Mittwoch',
+    'JXARTUP_THURSDAY'               => 'Donnerstag',
+    'JXARTUP_FRIDAY'                 => 'Freitag',
+    'JXARTUP_SATURDAY'               => 'Samstag',
+    'JXARTUP_SUNDAY'                 => 'Sonntag',
+    
     'JXARTUP_EDIT_TITLE'             => 'Update-Job bearbeiten',
     'JXARTUP_CREATE_TITLE'           => 'Neuen Update-Job erstellen',
     'JXARTUP_CREATE'                 => 'Erstellen',

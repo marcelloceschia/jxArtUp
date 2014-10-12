@@ -411,7 +411,18 @@ function switchFields( bVal )
 [{assign var="i" value=1}]
 [{assign var="thisMonth" value=$smarty.now|date_format:"%m"}]
 <table>
-    <tr>
+    <thead>
+        <tr>
+            <th>[{ oxmultilang ident="JXARTUP_MONDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_TUESDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_WEDNESDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_THURSDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_FRIDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_SATURDAY"}]</th>
+            <th>[{ oxmultilang ident="JXARTUP_SUNDAY"}]</th>
+        </tr>
+    </thead>
+    <tbody><tr>
     [{foreach key=day name=alldays item=aDay from=$aDays}]
         <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]
                 onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '0', '','', '','', '','');">
@@ -449,6 +460,6 @@ function switchFields( bVal )
         [{/if}]
         [{assign var="i" value=$i+1}]
     [{/foreach}]
-    </tr>
+    </tr></tbody>
 </table>
 </div>
