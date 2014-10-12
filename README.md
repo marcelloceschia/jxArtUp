@@ -25,4 +25,16 @@
 * **0.1 Initial Release**
   * Create, edit and remove update jobs
   * Update job for CRON
-  
+
+* **0.2 Calendar Display**
+  * Search for product number added
+  * calendar display added
+  * wrong texts for column headers fixed
+
+*  **0.2.1 Bugfix**
+  * Settings for default display added
+  * Autofocus of fields fixed
+
+*  **0.2.2 Bugfix**  
+  * Problems on Firefox fixed
+  * Support for empty fields added   
