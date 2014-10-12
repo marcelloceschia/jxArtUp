@@ -92,18 +92,23 @@ class jxartup extends oxAdminView
         $aSet = array();
         for ($i=1; $i<=3; $i++) {
             $sField = $this->getConfig()->getRequestParameter( "field{$i}" );
-            if ( empty($sField) !== TRUE ) {
-                $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
-                if ($this->aFields[$sField] == CHAR)
-                    $sTmpValue = "{$oDb->quote($sValue)}";
-                else
-                    $sTmpValue = "{$sValue}";
-                array_push( $aSet, "jxfield{$i} = '{$sField}', jxtype{$i} = '{$this->aFields[$sField]}', jxvalue{$i} = $sTmpValue" );
-            }
+            if (empty($sField) === TRUE)
+                $sField = 'none'; // some browsers aren't returning as value 'none'
+            
+            if ($sField != 'none')
+                $sTmpType = $this->aFields[$sField];
+            else
+                $sTmpType = '';
+
+            $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
+            $sTmpValue = $oDb->quote($sValue);
+
+            array_push( $aSet, "jxfield{$i} = '{$sField}', jxtype{$i} = '{$sTmpType}', jxvalue{$i} = {$sTmpValue} " );
         }
         array_push( $aSet, "jxupdatetime = '{$sUpdTime}'" );
         
         $sSql = "UPDATE jxarticleupdates SET " . implode( ',', $aSet ) . " WHERE jxid = '{$sJxId}'";
+        //echo $sSql;
         
         $oDb->execute($sSql);
         
@@ -142,7 +147,9 @@ class jxartup extends oxAdminView
         
         for ($i=1; $i<=3; $i++) {
             $sField = $this->getConfig()->getRequestParameter( "field{$i}" );
-            if ( empty($sField) !== TRUE ) {
+            if (empty($sField) === TRUE)
+                $sField = 'none'; // some browsers aren't returning as value 'none'
+            if ( $sField != 'none' ) {
                 $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
                 if ($this->aFields[$sField] == CHAR)
                     $sTmpValue = "{$oDb->quote($sValue)}";
@@ -154,6 +161,7 @@ class jxartup extends oxAdminView
         }
         
         $sSql = "INSERT INTO jxarticleupdates (" . implode( ',', $aCol ) . ") VALUES (" . implode( ',', $aVal ) . ") ";
+        //echo $sSql;
         
         $oDb->execute($sSql);
         
