@@ -2,13 +2,13 @@
 <link href="[{$oViewConf->getModuleUrl('jxartup','out/admin/src/jxartup.css')}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
-  if(top)
-  {
+if(top)
+{
     top.sMenuItem    = "[{ oxmultilang ident="mxmanageprod" }]";
     top.sMenuSubItem = "[{ oxmultilang ident="jxartup_menu" }]";
     top.sWorkArea    = "[{$_act}]";
     top.setTitle();
-  }
+}
 
 function editThis( sID, sClass )
 {

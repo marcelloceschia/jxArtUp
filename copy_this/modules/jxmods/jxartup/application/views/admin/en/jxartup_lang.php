@@ -1,6 +1,4 @@
 <?php
-include '../modules/jxmods/jxartup/application/views/admin/en/jxartup_lang.php'
-/*
 $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
@@ -67,7 +65,7 @@ $aLang = array(
     'SHOP_MODULE_sJxArtUpDisplayType_list'      => 'List',
     'SHOP_MODULE_sJxArtUpDisplayType_calendar'  => 'Calendar',
     
-    'charset'                        => 'ISO-8859-15',
+    'charset'                        => 'ISO-8859-15'
 );
-*/
+
 ?>

@@ -190,8 +190,9 @@ class jxartup extends oxAdminView
     public function jxsetdisplay ()
     {
         $sDispType = $this->getConfig()->getRequestParameter( "jxdisptype" );
+        $sShopId = $this->getConfig()->getShopId();
 
-        $this->getConfig()->setConfigParam( 'sJxArtUpDisplayType', $sDispType );
+        $this->getConfig()->saveShopConfVar( 'select', 'sJxArtUpDisplayType', $sDispType, $sShopId, 'module:jxartup' );
         
         return;
     }

@@ -16,7 +16,7 @@ $aModule = array(
                         'en' => 'Admin Module for Scheduling Product Updates'
                         ),
     'thumbnail'    => 'jxartup.png',
-    'version'      => '0.2.3',
+    'version'      => '0.2.5',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxArtUp',
     'email'        => 'jobarthel@gmail.com',
@@ -26,7 +26,7 @@ $aModule = array(
                         'jxartup' => 'jxmods/jxartup/application/controllers/admin/jxartup.php'
                         ),
     'templates'    => array(
-                        'jxartup.tpl' => 'jxmods/jxartup/views/admin/tpl/jxartup.tpl'
+                        'jxartup.tpl' => 'jxmods/jxartup/application/views/admin/tpl/jxartup.tpl'
                         ),
     'events'       => array(
         'onActivate'   => 'jxartup_install::onActivate', 
