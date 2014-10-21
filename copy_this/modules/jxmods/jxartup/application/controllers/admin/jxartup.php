@@ -49,9 +49,6 @@ class jxartup extends oxAdminView
         
         $this->aCalendar = $this->_createCalendarTable();
         $this->_fillCalendar();
-        /*echo '<pre>';
-        print_r($this->aCalendar);
-        echo '</pre>';/**/
         
         $oModule = oxNew('oxModule');
         $oModule->load('jxartup');
@@ -64,8 +61,6 @@ class jxartup extends oxAdminView
         $this->_aViewData["jxErr"] = $this->jxErr;
         
         $this->_aViewData["aUpdates"] = $aUpdates;
-        //$this->_getFirstDay();
-        //$this->_getLastDay();
         $this->_aViewData["aDays"] = $this->aCalendar;
 
         return $this->_sThisTemplate;
@@ -108,7 +103,6 @@ class jxartup extends oxAdminView
         array_push( $aSet, "jxupdatetime = '{$sUpdTime}'" );
         
         $sSql = "UPDATE jxarticleupdates SET " . implode( ',', $aSet ) . " WHERE jxid = '{$sJxId}'";
-        //echo $sSql;
         
         $oDb->execute($sSql);
         
@@ -163,7 +157,6 @@ class jxartup extends oxAdminView
         }
         
         $sSql = "INSERT INTO jxarticleupdates (" . implode( ',', $aCol ) . ") VALUES (" . implode( ',', $aVal ) . ") ";
-        //echo $sSql;
         
         $oDb->execute($sSql);
         
