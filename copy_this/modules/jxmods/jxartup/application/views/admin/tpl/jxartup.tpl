@@ -455,9 +455,10 @@ function changeUpdateLine( LineNo )
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
                                    [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
-                        <b>[{if $sUpdate.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield1}]</b> =&gt; [{$sUpdate.jxvalue1}][{/if}]
-                        <b>[{if $sUpdate.jxfield2 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield2}]</b> =&gt; [{$sUpdate.jxvalue2}][{/if}]
-                        <b>[{if $sUpdate.jxfield3 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield3}]</b> =&gt; [{$sUpdate.jxvalue3}][{/if}]
+                        <b>[{if $sUpdate.jxvalue1 != ""}][{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield1 }]</b> =&gt; [{$sUpdate.jxvalue1}][{/if}]
+                        <b>[{if $sUpdate.jxvalue2 != ""}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield2 }]</b> =&gt; [{$sUpdate.jxvalue2}][{/if}]
+                        <b>[{if $sUpdate.jxvalue3 != ""}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield3 }]</b> =&gt; [{$sUpdate.jxvalue3}][{/if}]
+                        <b>[{if $sUpdate.jxinherit == "1"}]<br>[{ oxmultilang ident="JXARTUP_INHERITINFO" }][{/if}]
                     </a>
                 </td>
             </tr>
@@ -505,9 +506,13 @@ function changeUpdateLine( LineNo )
                                    '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]',
                                    [{$aJob.jxinherit}], [{$aJob.oxvarcount}] );"
                         title="[{$aJob.jxupdatetime|date_format:"%H:%M:%S"}]
-[{if $aJob.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1}] =&gt; [{$aJob.jxvalue1}][{/if}]
-[{if $aJob.jxfield2 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2}] =&gt; [{$aJob.jxvalue2}][{/if}]
-[{if $aJob.jxfield3 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield3}] =&gt; [{$aJob.jxvalue3}][{/if}]
+[{if $aJob.jxvalue1 != ""}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1 }] =&gt; [{$aJob.jxvalue1}]
+[{/if}]
+[{if $aJob.jxvalue2 != ""}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2 }] =&gt; [{$aJob.jxvalue2}]
+[{/if}]
+[{if $aJob.jxvalue3 != ""}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield3 }] =&gt; [{$aJob.jxvalue3}]
+[{/if}]
+[{if $aJob.jxinherit == "1"}][{ oxmultilang ident="JXARTUP_INHERITINFO" }][{/if}]
 ">
                     [{$aJob.oxtitle}]
                     </a>

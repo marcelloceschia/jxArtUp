@@ -66,6 +66,7 @@ $aLang = array(
     'JXARTUP_OPTIONS'                => 'Optionen',
     'JXARTUP_INHERITVALUES'          => 'Werte auf Varianten vererben',
     'JXARTUP_READONLYINFO'           => 'Dieser Eintrag wurde bereits ausgef&uuml;hrt und kann daher nicht mehr bearbeitet werden',
+    'JXARTUP_INHERITINFO'            => 'Werte werden vererbt',
     
     'JXARTUP_ERR'                    => 'Fehler',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Angegebene Art.-UID oder Art.-Nr. nicht gefunden.',

@@ -58,6 +58,7 @@ $aLang = array(
     'JXARTUP_OPTIONS'                => 'Options',
     'JXARTUP_INHERITVALUES'          => 'Inherit values to variants',
     'JXARTUP_READONLYINFO'           => 'This entry was already processed and cannot be edited anymore',
+    'JXARTUP_INHERITINFO'            => 'Values will be inherited',
     
     'JXARTUP_ERR'                    => 'Error',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Given Prod.-UID or Prod.-No. not found.',
