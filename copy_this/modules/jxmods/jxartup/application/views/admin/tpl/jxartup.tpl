@@ -50,7 +50,7 @@ function editThis( sID, sClass )
     oTransfer.submit();
 }
 
-function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value1, field2, value2, field3, value3 )
+function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value1, field2, value2, field3, value3, inherit, varcount )
 {
     // stop event propagation
     if (document.getElementById('popupEditWin').style.display == 'block')
@@ -68,6 +68,19 @@ function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value
     document.getElementById('value2').value = value2;
     document.getElementById('field3').value = field3;
     document.getElementById('value3').value = value3;
+    if (inherit == 1)
+        document.getElementById('inheritvalues').checked = true;
+    else
+        document.getElementById('inheritvalues').checked = false;
+    if (varcount > 0) {
+        document.getElementById('inheritvalues').disabled = false;
+        document.getElementById('inheritlabel').style.color = 'black';
+    }
+    else {
+        document.getElementById('inheritvalues').disabled = true;
+        document.getElementById('inheritlabel').style.color = 'darkgray';
+        document.getElementById('inheritvalues').checked = false;
+    }
     document.getElementById('jxsubmit').style.display = 'inline-block';
     switchFields(false);
 
@@ -88,9 +101,14 @@ function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value
         document.getElementById('fnc').value = 'jxsave';
     }
     if (jxdone == 1) {
+        //alert(document.getElementById('doneinfo').style.display);
+        document.getElementById('doneinfo').style.display = '';
         document.getElementById('jxdelete').style.display = 'none';
         document.getElementById('jxsubmit').style.display = 'none';
         switchFields(true);
+    }
+    else {
+        document.getElementById('doneinfo').style.display = 'none';
     }
     return;
 }
@@ -125,7 +143,43 @@ function switchFields( bVal )
     document.getElementById('value2').disabled = bVal;
     document.getElementById('field3').disabled = bVal;
     document.getElementById('value3').disabled = bVal;
+    document.getElementById('inheritvalues').disabled = bVal;
+    
+    if (document.getElementById('field1').value == 'none')
+        document.getElementById('value1').disabled = true;
+    else
+        document.getElementById('value1').disabled = false;
+    
+    if (document.getElementById('field2').value == 'none')
+        document.getElementById('value2').disabled = true;
+    else
+        document.getElementById('value2').disabled = false;
+    
+    if (document.getElementById('field3').value == 'none')
+        document.getElementById('value3').disabled = true;
+    else
+        document.getElementById('value3').disabled = false;
+    
+    if (bVal == true)
+        document.getElementById('inheritlabel').style.color = 'darkgray';
+    else
+        document.getElementById('inheritlabel').style.color = 'black';
+    
     return;
+}
+
+function changeUpdateLine( LineNo )
+{
+    var fieldId = 'field' + LineNo;
+    var valueId = 'value' + LineNo;
+    
+    if (document.getElementById(fieldId).value == 'none') {
+        document.getElementById(valueId).disabled = true;
+        document.getElementById(valueId).value = '';
+    }
+    else {
+        document.getElementById(valueId).disabled = false;
+    }
 }
 
 </script>
@@ -156,6 +210,9 @@ function switchFields( bVal )
 
                 <br />
                 <table>
+                    <tr>
+                        <td id="doneinfo" colspan="2"><span style="color:blue;font-style:italic;">[{ oxmultilang ident="JXARTUP_READONLYINFO" }]</span></td>
+                    </tr>
                     <tr id="artidline" style="display:none;">
                         <td><label for="artuid">[{ oxmultilang ident="JXARTUP_PRODUCTID" }]</label></td>
                         <td><input type="text" name="artuid" id="artuid" size="40" value="" onchange="clearUrl();" onkeyup="clearUrl();" /></td>
@@ -180,7 +237,7 @@ function switchFields( bVal )
                     <tr>
                         <td><label for="field1">[{ oxmultilang ident="JXARTUP_FIELDS" }]</label></td>
                         <td>
-                            <select name="field1" id="field1">
+                            <select name="field1" id="field1" onchange="changeUpdateLine('1');">
                                 <option value="none"></option>
                                 [{foreach key=sField name=selbox item=sType from=$aFields}]
                                     [{assign var="sOptText" value="JXARTUP_"|cat:$sField}]
@@ -194,7 +251,7 @@ function switchFields( bVal )
                     <tr>
                         <td> </td>
                         <td>
-                            <select name="field2" id="field2">
+                            <select name="field2" id="field2" onchange="changeUpdateLine('2');">
                                 <option value="none"></option>
                                 [{foreach key=sField name=selbox item=sType from=$aFields}]
                                     [{assign var="sOptText" value="JXARTUP_"|cat:$sField}]
@@ -208,7 +265,7 @@ function switchFields( bVal )
                     <tr>
                         <td> </td>
                         <td>
-                            <select name="field3" id="field3">
+                            <select name="field3" id="field3" onchange="changeUpdateLine('3');">
                                 <option value="none"></option>
                                 [{foreach key=sField name=selbox item=sType from=$aFields}]
                                     [{assign var="sOptText" value="JXARTUP_"|cat:$sField}]
@@ -222,8 +279,8 @@ function switchFields( bVal )
                     <tr>
                         <td><label>[{ oxmultilang ident="JXARTUP_OPTIONS" }]</label></td>
                         <td>
-                            <input type="checkbox" name="inheritprices" id="inheritprices" size="20" />
-                            <label for="inheritprices">[{ oxmultilang ident="JXARTUP_INHERITPRICES" }]</label>
+                            <input type="checkbox" name="inheritvalues" id="inheritvalues" size="20" />
+                            <label id="inheritlabel" for="inheritvalues">[{ oxmultilang ident="JXARTUP_INHERITVALUES" }]</label>
                         </td>
                     </tr>
                     <tr>
@@ -264,7 +321,7 @@ function switchFields( bVal )
 
     <div class="greenbtn" style="display:inline-block;">
         <button type="button" 
-                onclick="showEditPopup('*NEW*','','','','','','','','','','');">
+                onclick="showEditPopup('*NEW*','','','','','','','','','','',0,1);">
             <span type="font-weight:bold;">&#10010;</span> <b>[{ oxmultilang ident="JXARTUP_CREATE" }]</b>
         </button>
     </div>
@@ -274,7 +331,7 @@ function switchFields( bVal )
     <div class="litegraybtn" style="display:inline-block;">
         <a href="[{$oViewConf->getModuleUrl('jxartup','core/jxartup_cron.php')}]" target="_blank">
             <button type="button" style="font-weight:bold;color:#444;" >
-                Update now
+                [{ oxmultilang ident="JXARTUP_RUNNOW" }]
             </button>
         </a>
     </div>
@@ -358,42 +415,46 @@ function switchFields( bVal )
                 </td>
                 <td class="[{$listclass}]">
                     <a href="#" 
-                       onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
+                       onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
                                    '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
-                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
+                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
+                                   [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
                         [{$sUpdate.oxartnum}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
                     <a href="#" 
-                       onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
+                       onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
                                    '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
-                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
+                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
+                                   [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
                         [{$sUpdate.oxtitle}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
                     &nbsp;
                     <a href="#" 
-                       onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
+                       onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
                                    '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
-                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
+                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
+                                   [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
                         [{$sUpdate.jxupdatetime}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
                     <a href="#" 
-                       onclick="showEditPopup('[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
+                       onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
                                    '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
-                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]');">
+                                   '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
+                                   [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
                         <b>[{if $sUpdate.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield1}]</b> =&gt; [{$sUpdate.jxvalue1}][{/if}]
                         <b>[{if $sUpdate.jxfield2 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield2}]</b> =&gt; [{$sUpdate.jxvalue2}][{/if}]
                         <b>[{if $sUpdate.jxfield3 != "none"}]<br>[{ oxmultilang ident="JXARTUP_"|cat:$sUpdate.jxfield3}]</b> =&gt; [{$sUpdate.jxvalue3}][{/if}]
@@ -425,7 +486,7 @@ function switchFields( bVal )
     <tbody><tr>
     [{foreach key=day name=alldays item=aDay from=$aDays}]
         <td [{if $aDay.active}][{if $day==$smarty.now|date_format:"%Y-%m-%d"}]class="jxcaltoday"[{elseif $thisMonth!=$day|date_format:"%m"}]class="jxcalnxtmon"[{else}]class="jxcalact"[{/if}][{else}]class="jxcalgray"[{/if}]
-                onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '0', '','', '','', '','');">
+                onclick="showEditPopup('*NEW*', '', '','[{$day}] 00:00:00', '0', '','', '','', '','',0,1);">
             <div [{if $aDay.active}]class="jxcaldaynum"[{else}]class="jxcaldaynumgray"[{/if}]>[{$aDay.day}]</div>
             [{if $aDay.data|@count > 0}]
                 [{foreach name=job item=aJob from=$aDay.data}]
@@ -437,11 +498,12 @@ function switchFields( bVal )
                     [{/if}]
                     <img src="[{$iconPath}]/[{$iconFile}].png" style="position:relative;left:2px;top:3px;">&nbsp;
                     <a href="#" 
-                       onclick="showEditPopup('[{$aJob.jxid}]', '[{$aJob.jxartid}]',
+                       onclick="showEditPopup( '[{$aJob.jxid}]', '[{$aJob.jxartid}]',
                                    '[{$aJob.oxtitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]','[{$aJob.jxdone}]',
                                    '[{$aJob.jxfield1}]','[{$aJob.jxvalue1|escape:"quotes"}]',
                                    '[{$aJob.jxfield2}]','[{$aJob.jxvalue2|escape:"quotes"}]',
-                                   '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]');"
+                                   '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]',
+                                   [{$aJob.jxinherit}], [{$aJob.oxvarcount}] );"
                         title="[{$aJob.jxupdatetime|date_format:"%H:%M:%S"}]
 [{if $aJob.jxfield1 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield1}] =&gt; [{$aJob.jxvalue1}][{/if}]
 [{if $aJob.jxfield2 != "none"}][{ oxmultilang ident="JXARTUP_"|cat:$aJob.jxfield2}] =&gt; [{$aJob.jxvalue2}][{/if}]

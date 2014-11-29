@@ -35,7 +35,6 @@ class jxArtUpCron
         $dbPass = $this->dbPwd;        
         $this->dbh = new PDO($dbConn, $dbUser, $dbPass); 
         $this->dbh->exec('set names "utf8"');
-        
     }
     
     
@@ -46,7 +45,7 @@ class jxArtUpCron
 
     public function updateProducts()
     {
-        $sSql = "SELECT jxid, jxartid, jxfield1, jxtype1, jxvalue1, jxfield2, jxtype2, jxvalue2, jxfield3, jxtype3, jxvalue3  "
+        $sSql = "SELECT jxid, jxartid, jxfield1, jxtype1, jxvalue1, jxfield2, jxtype2, jxvalue2, jxfield3, jxtype3, jxvalue3, jxinherit  "
                 . "FROM jxarticleupdates "
                 . "WHERE "
                     . "jxupdatetime <= NOW() "
@@ -75,6 +74,13 @@ class jxArtUpCron
             echo $sSql . '<hr>';
             $stmt = $this->dbh->prepare($sSql);
             $stmt->execute();
+            
+            if ($aTask['jxinherit'] == 1) {
+                $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
+                echo $sSql . '<hr>';
+                $stmt = $this->dbh->prepare($sSql);
+                $stmt->execute();
+            }
             
             $sSql = "UPDATE jxarticleupdates SET jxdone = 1 WHERE jxid = '{$aTask['jxid']}'";
             //echo $sSql . '<hr>';

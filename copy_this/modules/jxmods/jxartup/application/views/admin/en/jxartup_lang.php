@@ -14,6 +14,7 @@ $aLang = array(
     'JXARTUP_EDIT_TITLE'             => 'Edit Update Job',
     'JXARTUP_CREATE_TITLE'           => 'Create new Update Job',
     'JXARTUP_CREATE'                 => 'Create',
+    'JXARTUP_RUNNOW'                 => 'Run now',
     'JXARTUP_DELETE'                 => 'Remove entry',
     'JXARTUP_SAVE'                   => 'Save',
     'JXARTUP_CANCEL'                 => 'Cancel',
@@ -55,7 +56,8 @@ $aLang = array(
     'JXARTUP_OXPRICEC'               => 'Price C',
     'JXARTUP_OXFREESHIPPING'         => 'Free Shipping',
     'JXARTUP_OPTIONS'                => 'Options',
-    'JXARTUP_INHERITPRICES'          => 'Inherit Prices',
+    'JXARTUP_INHERITVALUES'          => 'Inherit values to variants',
+    'JXARTUP_READONLYINFO'           => 'This entry was already processed and cannot be edited anymore',
     
     'JXARTUP_ERR'                    => 'Error',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Given Prod.-UID or Prod.-No. not found.',

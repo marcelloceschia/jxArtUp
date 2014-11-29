@@ -38,6 +38,9 @@ class jxartup extends oxAdminView
     protected $aCalendar = array();
     protected $jxErr = "";
 
+/*
+ * 
+ */    
     public function render()
     {
         parent::render();
@@ -67,6 +70,9 @@ class jxartup extends oxAdminView
     }
     
     
+/*
+ * Save changes of a job
+ */
     public function jxsave ()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -81,6 +87,7 @@ class jxartup extends oxAdminView
         $sValue1 = $this->getConfig()->getRequestParameter( "value1" );
         $sValue2 = $this->getConfig()->getRequestParameter( "value2" );
         $sValue3 = $this->getConfig()->getRequestParameter( "value3" );
+        $sInherit = $this->getConfig()->getRequestParameter( "inheritvalues" );
         
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         
@@ -92,15 +99,27 @@ class jxartup extends oxAdminView
             
             if ($sField != 'none')
                 $sTmpType = $this->aFields[$sField];
-            else
+            else 
                 $sTmpType = '';
 
             $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
+            if ($this->aFields[$sField] == 'FLOAT')
+                $sValue = $this->_formatFloat($sValue);
+            
+            if ($sField == 'none')
+                $sValue = '';
+            if ($sValue == '')
+                $sField = '';
+            
             $sTmpValue = $oDb->quote($sValue);
 
             array_push( $aSet, "jxfield{$i} = '{$sField}', jxtype{$i} = '{$sTmpType}', jxvalue{$i} = {$sTmpValue} " );
         }
         array_push( $aSet, "jxupdatetime = '{$sUpdTime}'" );
+        if ($sInherit == 'on')
+            array_push( $aSet, "jxinherit = 1" );
+        else
+            array_push( $aSet, "jxinherit = 0" );
         
         $sSql = "UPDATE jxarticleupdates SET " . implode( ',', $aSet ) . " WHERE jxid = '{$sJxId}'";
         
@@ -110,6 +129,9 @@ class jxartup extends oxAdminView
     }
     
     
+/*
+ * Create a new job
+ */
     public function jxcreate ()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -124,6 +146,7 @@ class jxartup extends oxAdminView
         $sValue1 = $this->getConfig()->getRequestParameter( "value1" );
         $sValue2 = $this->getConfig()->getRequestParameter( "value2" );
         $sValue3 = $this->getConfig()->getRequestParameter( "value3" );
+        $sInherit = $this->getConfig()->getRequestParameter( "inheritvalues" );
         
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         
@@ -150,10 +173,20 @@ class jxartup extends oxAdminView
                 $sTmpType = '';
             
             $sValue = $this->getConfig()->getRequestParameter( "value{$i}" );
+            if ($this->aFields[$sField] == 'FLOAT')
+                $sValue = $this->_formatFloat($sValue);
             $sTmpValue = $oDb->quote($sValue);
             
             array_push( $aCol, "jxfield{$i}, jxtype{$i}, jxvalue{$i} " );
             array_push( $aVal, "'{$sField}', '{$sTmpType}', {$sTmpValue} " );
+        }
+        if ($sInherit == 'on') {
+            array_push( $aCol, 'jxinherit' );
+            array_push( $aVal, '1' );
+        }
+        else {
+            array_push( $aCol, 'jxinherit' );
+            array_push( $aVal, '0' );
         }
         
         $sSql = "INSERT INTO jxarticleupdates (" . implode( ',', $aCol ) . ") VALUES (" . implode( ',', $aVal ) . ") ";
@@ -164,6 +197,9 @@ class jxartup extends oxAdminView
     }
     
     
+/*
+ * Delete an existing job
+ */
     public function jxdelete ()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -180,6 +216,9 @@ class jxartup extends oxAdminView
     }
     
     
+/*
+ * Save the choosen display mode
+ */
     public function jxsetdisplay ()
     {
         $sDispType = $this->getConfig()->getRequestParameter( "jxdisptype" );
@@ -191,6 +230,9 @@ class jxartup extends oxAdminView
     }
     
     
+/*
+ * Retrieve all jobs from db
+ */
     private function _getAllUpdates () 
     {
         $aWhere = array(
@@ -214,7 +256,7 @@ class jxartup extends oxAdminView
                         . "IF(a.oxparentid='',"
                             . "a.oxtitle,"
                             . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
-                        . "AS oxtitle, jxdone "
+                        . "AS oxtitle, jxinherit, jxdone, a.oxvarcount "
                     . "FROM jxarticleupdates u, oxarticles a "
                     . "WHERE a.oxid = u.jxartid AND ({$sWhere}) "
                     . "ORDER BY jxupdatetime ASC ";
@@ -319,7 +361,7 @@ class jxartup extends oxAdminView
                     . "IF(a.oxparentid='',"
                         . "a.oxtitle,"
                         . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
-                    . "AS oxtitle, jxdone "
+                    . "AS oxtitle, jxinherit, jxdone, a.oxvarcount "
                 . "FROM jxarticleupdates u, oxarticles a "
                 . "WHERE a.oxid = u.jxartid "
                     . "AND DATE(jxupdatetime) >= '{$this->_getFirstDay()}' "
@@ -336,6 +378,12 @@ class jxartup extends oxAdminView
             }
         }
         return;
+    }
+    
+    
+    private function _formatFloat($sValue)
+    {
+        return( str_replace( ',', '.', $sValue ) );
     }
 
 

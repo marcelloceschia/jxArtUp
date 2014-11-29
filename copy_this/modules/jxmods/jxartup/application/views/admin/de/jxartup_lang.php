@@ -22,6 +22,7 @@ $aLang = array(
     'JXARTUP_EDIT_TITLE'             => 'Update-Job bearbeiten',
     'JXARTUP_CREATE_TITLE'           => 'Neuen Update-Job erstellen',
     'JXARTUP_CREATE'                 => 'Erstellen',
+    'JXARTUP_RUNNOW'                 => 'Jetzt ausf&uuml;hren',
     'JXARTUP_DELETE'                 => 'Eintrag entfernen',
     'JXARTUP_SAVE'                   => 'Speichern',
     'JXARTUP_CANCEL'                 => 'Abbrechen',
@@ -63,7 +64,8 @@ $aLang = array(
     'JXARTUP_OXPRICEC'               => 'Preis C',
     'JXARTUP_OXFREESHIPPING'         => 'Versandkostenfrei',
     'JXARTUP_OPTIONS'                => 'Optionen',
-    'JXARTUP_INHERITPRICES'          => 'Preise vererben',
+    'JXARTUP_INHERITVALUES'          => 'Werte auf Varianten vererben',
+    'JXARTUP_READONLYINFO'           => 'Dieser Eintrag wurde bereits ausgef&uuml;hrt und kann daher nicht mehr bearbeitet werden',
     
     'JXARTUP_ERR'                    => 'Fehler',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Angegebene Art.-UID oder Art.-Nr. nicht gefunden.',
