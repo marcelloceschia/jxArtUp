@@ -63,10 +63,10 @@ $aLang = array(
     'JXARTUP_ERR'                    => 'Error',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Given Prod.-UID or Prod.-No. not found.',
     
-    'SHOP_MODULE_GROUP_JXARTUP_DISPLAY'         => 'Display',
-    'SHOP_MODULE_sJxArtUpDisplayType'           => 'Default Display',
-    'SHOP_MODULE_sJxArtUpDisplayType_list'      => 'List',
-    'SHOP_MODULE_sJxArtUpDisplayType_calendar'  => 'Calendar',
+    'SHOP_MODULE_GROUP_JXARTUP_DISPLAY'          => 'Display',
+    'SHOP_MODULE_sJxArtUpDisplayType'            => 'Default Display',
+    'SHOP_MODULE_sJxArtUpDisplayType_list'       => 'List',
+    'SHOP_MODULE_sJxArtUpDisplayType_calendar'   => 'Calendar',
     
     'charset'                        => 'ISO-8859-15'
 );

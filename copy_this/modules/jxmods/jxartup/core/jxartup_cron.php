@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxArtUp
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2012-2014 
+ * @copyright (C) Joachim Barthel 2014 
  *
  */
 
@@ -71,15 +71,36 @@ class jxArtUpCron
             }
             
             $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxid = '{$aTask['jxartid']}'";
-            echo $sSql . '<hr>';
-            $stmt = $this->dbh->prepare($sSql);
-            $stmt->execute();
-            
-            if ($aTask['jxinherit'] == 1) {
-                $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
-                echo $sSql . '<hr>';
+            $this->_logAction( 'jxartup_cron: ' . $sSql );
+            try {
                 $stmt = $this->dbh->prepare($sSql);
                 $stmt->execute();
+                if ($stmt->errorCode() != '00000') {
+                    $this->_logAction( 'SQL Error on: ' . $sSql . '<br>' );
+                    $this->_logAction( $stmt->errorInfo() . '<br>' );
+                }
+            }
+            catch (PDOException $e) {
+                echo('pdo->execute error = '.$e->getMessage(). '<br>' );
+                die();
+            }
+            
+            // Are there variants to update ?
+            if ($aTask['jxinherit'] == 1) {
+                $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
+                $this->_logAction( 'jxartup_cron: ' . $sSql );
+                try {
+                    $stmt = $this->dbh->prepare($sSql);
+                    $stmt->execute();
+                    if ($stmt->errorCode() != '00000') {
+                        $this->_logAction( 'SQL Error on: ' . $sSql );
+                        $this->_logAction( $stmt->errorInfo() );
+                    }
+                }
+                catch (PDOException $e) {
+                    echo('pdo->execute error = '.$e->getMessage(). '<br>' );
+                    die();
+                }
             }
             
             $sSql = "UPDATE jxarticleupdates SET jxdone = 1 WHERE jxid = '{$aTask['jxid']}'";
@@ -88,8 +109,8 @@ class jxArtUpCron
                 $stmt = $this->dbh->prepare($sSql);
                 $stmt->execute();
                 if ($stmt->errorCode() != '00000') {
-                    echo( 'SQL: ' . $sql . '<br>' );
-                    echo( $stmt->errorInfo() . '<br>' );
+                    echo( 'SQL: ' . $sql );
+                    echo( $stmt->errorInfo() );
                 }
             }
             catch (PDOException $e) {
@@ -98,6 +119,23 @@ class jxArtUpCron
             }
 
         }
+    }
+
+
+    private function _logAction($value)
+    {
+        $nPathEnd = strpos( $_SERVER['SCRIPT_FILENAME'], '/modules' );
+        $sShopPath = substr( $_SERVER['SCRIPT_FILENAME'], 0, $nPathEnd );
+        $sLogPath = $sShopPath.'/log/';
+        
+        $fh = fopen($sLogPath.'jxmods.log',"a+");
+        
+        if (gettype($value) == 'array' OR gettype($value) == 'object')
+            fputs( $fh, print_r($value, TRUE) );
+        else
+            fputs( $fh, date("Y-m-d H:i:s  ") . $value . "\n" );
+        
+        fclose($fh);
     }
     
 } 

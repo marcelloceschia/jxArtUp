@@ -38,9 +38,9 @@ class jxartup extends oxAdminView
     protected $aCalendar = array();
     protected $jxErr = "";
 
-/*
- * 
- */    
+    /*
+     * 
+     */    
     public function render()
     {
         parent::render();
@@ -70,9 +70,9 @@ class jxartup extends oxAdminView
     }
     
     
-/*
- * Save changes of a job
- */
+    /*
+     * Save changes of a job
+     */
     public function jxsave ()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -129,9 +129,9 @@ class jxartup extends oxAdminView
     }
     
     
-/*
- * Create a new job
- */
+    /*
+     * Create a new job
+    */
     public function jxcreate ()
     {
         $myConfig = oxRegistry::get("oxConfig");
@@ -197,9 +197,9 @@ class jxartup extends oxAdminView
     }
     
     
-/*
- * Delete an existing job
- */
+    /*
+     * Delete an existing job
+     */
     public function jxdelete ()
     {
         $myConfig = oxRegistry::get("oxConfig");

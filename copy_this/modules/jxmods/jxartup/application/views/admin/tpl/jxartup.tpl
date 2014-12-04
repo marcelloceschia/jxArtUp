@@ -101,7 +101,6 @@ function showEditPopup( jxid, artid, arttitle, updatetime, jxdone, field1, value
         document.getElementById('fnc').value = 'jxsave';
     }
     if (jxdone == 1) {
-        //alert(document.getElementById('doneinfo').style.display);
         document.getElementById('doneinfo').style.display = '';
         document.getElementById('jxdelete').style.display = 'none';
         document.getElementById('jxsubmit').style.display = 'none';

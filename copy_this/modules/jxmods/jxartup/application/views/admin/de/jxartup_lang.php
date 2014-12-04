@@ -71,10 +71,10 @@ $aLang = array(
     'JXARTUP_ERR'                    => 'Fehler',
     'JXARTUP_ERR_ID_NOT_FOUND'       => 'Angegebene Art.-UID oder Art.-Nr. nicht gefunden.',
     
-    'SHOP_MODULE_GROUP_JXARTUP_DISPLAY'         => 'Anzeige',
-    'SHOP_MODULE_sJxArtUpDisplayType'           => 'Standard-Anzeige',
-    'SHOP_MODULE_sJxArtUpDisplayType_list'      => 'Liste',
-    'SHOP_MODULE_sJxArtUpDisplayType_calendar'  => 'Kalender',
+    'SHOP_MODULE_GROUP_JXARTUP_DISPLAY'          => 'Anzeige',
+    'SHOP_MODULE_sJxArtUpDisplayType'            => 'Standard-Anzeige',
+    'SHOP_MODULE_sJxArtUpDisplayType_list'       => 'Liste',
+    'SHOP_MODULE_sJxArtUpDisplayType_calendar'   => 'Kalender',
     
     'charset'                        => 'ISO-8859-15'
 );
