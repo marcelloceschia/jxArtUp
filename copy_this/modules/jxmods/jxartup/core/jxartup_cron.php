@@ -45,10 +45,12 @@ class jxArtUpCron
 
     public function updateProducts()
     {
-        $sSql = "SELECT jxid, jxartid, jxfield1, jxtype1, jxvalue1, jxfield2, jxtype2, jxvalue2, jxfield3, jxtype3, jxvalue3, jxinherit  "
-                . "FROM jxarticleupdates "
+        $sSql = "SELECT jxid, jxartid, jxfield1, jxtype1, jxvalue1, jxfield2, jxtype2, jxvalue2, jxfield3, jxtype3, jxvalue3, jxinherit, "
+                . "oxid, oxparentid, oxvarcount "
+                . "FROM jxarticleupdates, oxarticles "
                 . "WHERE "
-                    . "jxupdatetime <= NOW() "
+                    . "jxartid = oxid "
+                    . "AND jxupdatetime <= NOW() "
                     . "AND jxdone != 1 "
                 . "ORDER BY jxupdatetime ASC ";
         
@@ -84,7 +86,7 @@ class jxArtUpCron
                 echo('pdo->execute error = '.$e->getMessage(). '<br>' );
                 die();
             }
-            
+             
             // Are there variants to update ?
             if ($aTask['jxinherit'] == 1) {
                 $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
@@ -103,6 +105,37 @@ class jxArtUpCron
                 }
             }
             
+            // Is it a variant or does it have variants? Update varminprice and varmaxprice
+            if ($aTask['oxparentid'] != "") {
+                $oxid = $aTask['oxparentid'];
+                $sSql = "SELECT MIN(oxprice) AS minprice, MAX(oxprice) AS maxprice  FROM oxarticles WHERE oxparentid = '{$oxid}' ";
+            } elseif ($aTask['oxvarcount'] != 0) {
+                $oxid = $aTask['oxid'];
+                $sSql = "SELECT MIN(oxprice) AS minprice, MAX(oxprice) AS maxprice  FROM oxarticles WHERE oxparentid = '{$oxid}' ";
+            }
+            if (($aTask['oxparentid'] != "") || ($aTask['oxvarcount'] != 0)){
+                // retrieve min / max values
+                $stmt = $this->dbh->prepare($sSql);
+                $stmt->execute();
+                $aVals = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $sSql = "UPDATE oxarticles SET oxvarminprice = {$aVals['minprice']}, oxvarmaxprice = {$aVals['maxprice']} WHERE oxid = '{$oxid}' ";
+                $this->_logAction( 'jxartup_cron: ' . $sSql );
+                try {
+                    $stmt = $this->dbh->prepare($sSql);
+                    $stmt->execute();
+                    if ($stmt->errorCode() != '00000') {
+                        $this->_logAction( 'SQL Error on: ' . $sSql );
+                        $this->_logAction( $stmt->errorInfo() );
+                    }
+                }
+                catch (PDOException $e) {
+                    echo('pdo->execute error = '.$e->getMessage(). '<br>' );
+                    die();
+                }
+            }
+            
+            // Job is done, update the job list
             $sSql = "UPDATE jxarticleupdates SET jxdone = 1 WHERE jxid = '{$aTask['jxid']}'";
             //echo $sSql . '<hr>';
             try {

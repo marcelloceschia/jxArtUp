@@ -216,9 +216,9 @@ class jxartup extends oxAdminView
     }
     
     
-/*
- * Save the choosen display mode
- */
+    /*
+     * Save the choosen display mode
+     */
     public function jxsetdisplay ()
     {
         $sDispType = $this->getConfig()->getRequestParameter( "jxdisptype" );
@@ -256,10 +256,14 @@ class jxartup extends oxAdminView
                         . "IF(a.oxparentid='',"
                             . "a.oxtitle,"
                             . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
-                        . "AS oxtitle, jxinherit, jxdone, a.oxvarcount "
+                        . "AS fulltitle, jxinherit, jxdone, a.oxvarcount "
                     . "FROM jxarticleupdates u, oxarticles a "
                     . "WHERE a.oxid = u.jxartid AND ({$sWhere}) "
-                    . "ORDER BY jxupdatetime ASC ";
+                    . "ORDER BY jxupdatetime ASC, "
+                        . "IF(a.oxparentid='',"
+                            . "a.oxtitle,"
+                            . "(SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid)) ASC, "
+                        . "a.oxsort ASC ";
 
             $rs = $oDb->Execute($sSql);
 
@@ -361,7 +365,7 @@ class jxartup extends oxAdminView
                     . "IF(a.oxparentid='',"
                         . "a.oxtitle,"
                         . "CONCAT((SELECT p.oxtitle FROM oxarticles p WHERE p.oxid=a.oxparentid), ', ', a.oxvarselect)) "
-                    . "AS oxtitle, jxinherit, jxdone, a.oxvarcount "
+                    . "AS fulltitle, jxinherit, jxdone, a.oxvarcount "
                 . "FROM jxarticleupdates u, oxarticles a "
                 . "WHERE a.oxid = u.jxartid "
                     . "AND DATE(jxupdatetime) >= '{$this->_getFirstDay()}' "

@@ -415,7 +415,7 @@ function changeUpdateLine( LineNo )
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
+                                   '[{$sUpdate.fulltitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
@@ -426,19 +426,19 @@ function changeUpdateLine( LineNo )
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
+                                   '[{$sUpdate.fulltitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
                                    [{$sUpdate.jxinherit}], [{$sUpdate.oxvarcount}] );">
-                        [{$sUpdate.oxtitle}]
+                        [{$sUpdate.fulltitle}]
                     </a>
                 </td>
                 <td class="[{$listclass}]">
                     &nbsp;
                     <a href="#" 
                        onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
+                                   '[{$sUpdate.fulltitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
@@ -449,7 +449,7 @@ function changeUpdateLine( LineNo )
                 <td class="[{$listclass}]">
                     <a href="#" 
                        onclick="showEditPopup( '[{$sUpdate.jxid}]', '[{$sUpdate.jxartid}]',
-                                   '[{$sUpdate.oxtitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
+                                   '[{$sUpdate.fulltitle|escape:"quotes"}]','[{$sUpdate.jxupdatetime}]','[{$sUpdate.jxdone}]',
                                    '[{$sUpdate.jxfield1}]','[{$sUpdate.jxvalue1|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield2}]','[{$sUpdate.jxvalue2|escape:"quotes"}]',
                                    '[{$sUpdate.jxfield3}]','[{$sUpdate.jxvalue3|escape:"quotes"}]',
@@ -499,7 +499,7 @@ function changeUpdateLine( LineNo )
                     <img src="[{$iconPath}]/[{$iconFile}].png" style="position:relative;left:2px;top:3px;">&nbsp;
                     <a href="#" 
                        onclick="showEditPopup( '[{$aJob.jxid}]', '[{$aJob.jxartid}]',
-                                   '[{$aJob.oxtitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]','[{$aJob.jxdone}]',
+                                   '[{$aJob.fulltitle|escape:"quotes"}]','[{$aJob.jxupdatetime}]','[{$aJob.jxdone}]',
                                    '[{$aJob.jxfield1}]','[{$aJob.jxvalue1|escape:"quotes"}]',
                                    '[{$aJob.jxfield2}]','[{$aJob.jxvalue2|escape:"quotes"}]',
                                    '[{$aJob.jxfield3}]','[{$aJob.jxvalue3|escape:"quotes"}]',
@@ -513,7 +513,7 @@ function changeUpdateLine( LineNo )
 [{/if}]
 [{if $aJob.jxinherit == "1"}][{ oxmultilang ident="JXARTUP_INHERITINFO" }][{/if}]
 ">
-                    [{$aJob.oxtitle}]
+                    [{$aJob.fulltitle}]
                     </a>
                 </div>
                     [{/foreach}]
@@ -528,4 +528,5 @@ function changeUpdateLine( LineNo )
     [{/foreach}]
     </tr></tbody>
 </table>
+
 </div>
