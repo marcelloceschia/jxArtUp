@@ -69,10 +69,12 @@ class jxArtUpCron
                         array_push ($aSet, "{$aTask["jxfield{$i}"]} = {$aTask["jxvalue{$i}"]}");
                     elseif  ($aTask["jxtype{$i}"] == 'CHAR')
                         array_push ($aSet, "{$aTask["jxfield{$i}"]} = '{$aTask["jxvalue{$i}"]}'");
+                    elseif  ($aTask["jxtype{$i}"] == 'INT')
+                        array_push ($aSet, "{$aTask["jxfield{$i}"]} = {$aTask["jxvalue{$i}"]}");
                 }
             }
             
-            $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxid = '{$aTask['jxartid']}'";
+            $sSql = "UPDATE oxarticles SET " . implode( ', ', $aSet ) . " WHERE oxid = '{$aTask['jxartid']}'";
             $this->_logAction( 'jxartup_cron: ' . $sSql );
             try {
                 $stmt = $this->dbh->prepare($sSql);
@@ -89,7 +91,7 @@ class jxArtUpCron
              
             // Are there variants to update ?
             if ($aTask['jxinherit'] == 1) {
-                $sSql = "UPDATE oxarticles SET " . implode( ',', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
+                $sSql = "UPDATE oxarticles SET " . implode( ', ', $aSet ) . " WHERE oxparentid = '{$aTask['jxartid']}'";
                 $this->_logAction( 'jxartup_cron: ' . $sSql );
                 try {
                     $stmt = $this->dbh->prepare($sSql);

@@ -34,7 +34,10 @@ class jxartup extends oxAdminView
                                 'OXPRICEA' => 'FLOAT', 
                                 'OXPRICEB' => 'FLOAT', 
                                 'OXPRICEC' => 'FLOAT', 
-                                'OXFREESHIPPING' => 'INT' );
+                                'OXFREESHIPPING' => 'INT',
+                                'OXMINDELTIME' => 'INT',
+                                'OXMAXDELTIME' => 'INT',
+                                'OXDELTIMEUNIT' => 'CHAR' );
     protected $aCalendar = array();
     protected $jxErr = "";
 
