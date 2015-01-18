@@ -16,7 +16,7 @@ $aModule = array(
                         'en' => 'Admin Module for Scheduling and Running Product Updates'
                         ),
     'thumbnail'    => 'jxartup.png',
-    'version'      => '0.3.3',
+    'version'      => '0.3.4',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxArtUp',
     'email'        => 'jobarthel@gmail.com',
